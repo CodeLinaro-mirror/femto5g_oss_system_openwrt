@@ -55,7 +55,7 @@ endef
 # some tree's don't have all the device tree's so we filter out
 # the ones that are not present
 # $(1) is the filter to apply
-FindDeviceTrees ?= $(notdir $(basename $(shell find $(DTS_DIR)/ -name $(1)*.dtb $(2) 2>/dev/null)))
+FindDeviceTrees ?= $(notdir $(basename $(shell find $(DTS_DIR)/ -name $(1).dtb $(2) 2>/dev/null)))
 
 # For imagebuilder builds, check if debug file exists before copying
 DebugImageName ?= $(KDIR)/vmlinux$(subst openwrt-ipq95xx$(if $(SUBTARGET),-$(SUBTARGET)),,$(IMG_PREFIX)).debug
@@ -66,19 +66,19 @@ define Image/BuildKernel/template
 endef
 
 define Image/BuildKernel/ipq95xx_32
-	$(foreach device, $(call FindDeviceTrees, ipq9574-), \
+	$(foreach device, $(call FindDeviceTrees, ipq9574-al02-c[12]), \
 		$(call Image/BuildKernel/$(1),$(device),$(IPQ95XX_32_KERNEL_LOADADDR));)
 
 	$(call Image/BuildKernel/MultiDTBFIT,ipq9574-alxx, \
-		$(call FindDeviceTrees, ipq9574-), $(IPQ95XX_32_KERNEL_LOADADDR))
+		$(call FindDeviceTrees, ipq9574-al02-c[12]), $(IPQ95XX_32_KERNEL_LOADADDR))
 endef
 
 define Image/BuildKernel/generic
-	$(foreach device, $(call FindDeviceTrees, ipq9574-), \
+	$(foreach device, $(call FindDeviceTrees, ipq9574-al02-c[12]), \
 		$(call Image/BuildKernel/$(1),$(device),$(IPQ95XX_KERNEL_LOADADDR));)
 
 	$(call Image/BuildKernel/MultiDTBFIT,ipq9574-alxx, \
-		$(call FindDeviceTrees, ipq9574-), $(IPQ95XX_KERNEL_LOADADDR))
+		$(call FindDeviceTrees, ipq9574-al02-c[12]), $(IPQ95XX_KERNEL_LOADADDR))
 endef
 
 define Image/BuildKernel
