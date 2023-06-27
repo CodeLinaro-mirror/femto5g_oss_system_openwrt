@@ -16,7 +16,7 @@ LINUX_SRC_VERSION:=$(shell basename $(TOPDIR)/qca/src/linux-*.* | sed 's/[^0-9.]
 CONFIG_EXTERNAL_KERNEL_TREE=$(shell \
 	grep -q CONFIG_EXTERNAL_KERNEL_TREE="[^\/]*.\/" $(TOPDIR)/.config && \
 	sed -n 's,CONFIG_EXTERNAL_KERNEL_TREE="\(.*\)",\1,p' $(TOPDIR)/.config || \
-	echo '$(TOPDIR)/qca/src/linux-$(LINUX_SRC_VERSION)')
+	echo '$(TOPDIR)/qca/src/linux-$(LINUX_SRC_VERSION)-rt')
 
 
 ifneq ($(CONFIG_EXTERNAL_KERNEL_TREE),"")
