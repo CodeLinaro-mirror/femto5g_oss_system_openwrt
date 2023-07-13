@@ -4,3 +4,6 @@ CONFIG_PCIE_DW_PLAT=y
 # CONFIG_USB_QCOM_DIAG_BRIDGE is not set
 CONFIG_VMSPLIT_1G=y
 # CONFIG_VMSPLIT_3G is not set
+# CONFIG_MHI_BUS is not set
+# CONFIG_QRTR is not set
+# CONFIG_FSM_DP is not set
