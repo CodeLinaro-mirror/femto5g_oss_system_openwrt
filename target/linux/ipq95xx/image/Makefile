@@ -66,19 +66,19 @@ define Image/BuildKernel/template
 endef
 
 define Image/BuildKernel/ipq95xx_32
-	$(foreach device, $(call FindDeviceTrees, ipq9574-al02-c[12]), \
+	$(foreach device, $(call FindDeviceTrees, ipq9574[db-]*al0[12]-c2), \
 		$(call Image/BuildKernel/$(1),$(device),$(IPQ95XX_32_KERNEL_LOADADDR));)
 
 	$(call Image/BuildKernel/MultiDTBFIT,ipq9574-alxx, \
-		$(call FindDeviceTrees, ipq9574-al02-c[12]), $(IPQ95XX_32_KERNEL_LOADADDR))
+		$(call FindDeviceTrees, ipq9574[db-]*al0[12]-c2), $(IPQ95XX_32_KERNEL_LOADADDR))
 endef
 
 define Image/BuildKernel/generic
-	$(foreach device, $(call FindDeviceTrees, ipq9574-al02-c[12]), \
+	$(foreach device, $(call FindDeviceTrees, ipq9574[db-]*al0[12]-c2), \
 		$(call Image/BuildKernel/$(1),$(device),$(IPQ95XX_KERNEL_LOADADDR));)
 
 	$(call Image/BuildKernel/MultiDTBFIT,ipq9574-alxx, \
-		$(call FindDeviceTrees, ipq9574-al02-c[12]), $(IPQ95XX_KERNEL_LOADADDR))
+		$(call FindDeviceTrees, ipq9574[db-]*al0[12]-c2), $(IPQ95XX_KERNEL_LOADADDR))
 endef
 
 define Image/BuildKernel
