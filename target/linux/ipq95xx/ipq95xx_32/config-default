@@ -7,3 +7,4 @@ CONFIG_VMSPLIT_1G=y
 # CONFIG_MHI_BUS is not set
 # CONFIG_QRTR is not set
 # CONFIG_FSM_DP is not set
+# CONFIG_FSM_TTI_INTR is not set
