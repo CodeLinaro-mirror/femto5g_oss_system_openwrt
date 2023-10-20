@@ -34,6 +34,12 @@ endef
 define Package/xfrm/install
 	$(INSTALL_DIR) $(1)/lib/netifd/proto
 	$(INSTALL_BIN) ./files/xfrm.sh $(1)/lib/netifd/proto/xfrm.sh
+	$(INSTALL_DIR) $(1)/etc/config/
+	$(INSTALL_CONF) ./files/ipsec.config $(1)/etc/config/ipsec
+	$(INSTALL_DIR) $(1)/etc/strongswan.d
+	$(INSTALL_CONF) ./files/file_log.conf $(1)/etc/strongswan.d
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(INSTALL_CONF) ./files/start_ipsec.sh $(1)/usr/bin
 endef
 
 $(eval $(call BuildPackage,xfrm))
