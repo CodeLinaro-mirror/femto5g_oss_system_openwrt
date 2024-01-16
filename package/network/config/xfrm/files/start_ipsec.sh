@@ -1,9 +1,5 @@
 #!/bin/sh
 
-# Copyright (c) 2023 Qualcomm Technologies, Inc.
-# All Rights Reserved.
-# Confidential and Proprietary - Qualcomm Technologies, Inc.
-
 if [ "$1" = "fastpath" ]; then
 	echo "Configuring IPsec Fast Path via NSS" > /dev/kmsg
 	insmod /lib/modules/5.4.213/qca-nss-eip-ipsec.ko
