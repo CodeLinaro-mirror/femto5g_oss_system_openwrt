@@ -97,5 +97,7 @@ define prepare_rootfs
 		$(1)/var/lock/*.lock
 	$(call clean_ipkg,$(1))
 	$(call mklibs,$(1))
+	# set default password as root
+	sed -i 's/root:::0:99999:7:::/root:\x241\x249Y296eJQ\x24WDZwr3Uz4gpsvKWoLqYKw.:20069:0:99999:7:::/' $(1)/etc/shadow
 	$(if $(SOURCE_DATE_EPOCH),find $(1)/ -mindepth 1 -execdir touch -hcd "@$(SOURCE_DATE_EPOCH)" "{}" +)
 endef
