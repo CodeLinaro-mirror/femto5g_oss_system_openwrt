@@ -95,6 +95,11 @@ MAKE_VARS += \
 define Build/Configure
 	$(call Build/Configure/Default)
 	echo "BPF_CFLAGS += -I$(BPF_HEADERS_DIR)/tools/lib" >> $(PKG_BUILD_DIR)/config.mk
+	echo "BPF_CFLAGS += -I$(TOOLCHAIN_DIR)/usr/include" >> $(PKG_BUILD_DIR)/config.mk
+	echo "BPF_CFLAGS += -I$(TOOLCHAIN_DIR)/include" >> $(PKG_BUILD_DIR)/config.mk
+	echo "BPF_CFLAGS += -I$(TOOLCHAIN_DIR)/include/fortify" >> $(PKG_BUILD_DIR)/config.mk
+	echo "BPF_CFLAGS += -I$(STAGING_DIR)/usr/include" >> $(PKG_BUILD_DIR)/config.mk
+	echo "BPF_CFLAGS += -Wno-error=macro-redefined" >> $(PKG_BUILD_DIR)/config.mk
 endef
 
 define Build/InstallDev

@@ -13,13 +13,12 @@ include $(INCLUDE_DIR)/kernel.mk
 
 
 PKG_NAME:=linux
-PKG_PATCHVER:=5.15
+PKG_PATCHVER:=6.1
 # Manually include kernel version and hash from kernel details file
 include $(INCLUDE_DIR)/kernel-$(PKG_PATCHVER)
 
+LOCAL_SRC:=$(TOPDIR)/qca/src/linux-6.1-rt
 PKG_VERSION:=$(PKG_PATCHVER)$(strip $(LINUX_VERSION-$(PKG_PATCHVER)))
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
-PKG_SOURCE_URL:=$(LINUX_SITE)
 PKG_HASH:=$(LINUX_KERNEL_HASH-$(strip $(PKG_VERSION)))
 PKG_BUILD_DIR:=$(KERNEL_BUILD_DIR)/bpf-headers/$(PKG_NAME)-$(PKG_VERSION)
 
@@ -34,6 +33,7 @@ FILES_DIR :=
 REAL_LINUX_DIR := $(LINUX_DIR)
 LINUX_DIR := $(PKG_BUILD_DIR)
 
+include $(INCLUDE_DIR)/local-development.mk
 include $(INCLUDE_DIR)/bpf.mk
 include $(INCLUDE_DIR)/package.mk
 
