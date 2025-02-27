@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+# Copyright (c) 2024, 2025 Qualcomm Innovation Center, Inc. All rights reserved.
 # Permission to use, copy, modify, and/or distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
 # copyright notice and this permission notice appear in all copies.
@@ -15,7 +15,7 @@
 
 if [ "$1" = "fastpath" ]; then
 	echo "Configuring IPsec Fast Path via NSS" > /dev/kmsg
-	insmod /lib/modules/5.4.213/qca-nss-eip-ipsec.ko
+	insmod /lib/modules/6.1.31-rt11/qca-nss-eip-ipsec.ko
 elif [ "$1" = "slowpath" ]; then
 	echo "Configuring IPsec Slow Path via Linux" > /dev/kmsg
 else

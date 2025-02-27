@@ -38,7 +38,7 @@ define Package/xfrm/install
 	$(INSTALL_DIR) $(1)/etc/strongswan.d
 	$(INSTALL_CONF) ./files/file_log.conf $(1)/etc/strongswan.d
 	$(INSTALL_DIR) $(1)/usr/bin
-	$(INSTALL_CONF) ./files/start_ipsec.sh $(1)/usr/bin
+	$(INSTALL_BIN) ./files/start_ipsec.sh $(1)/usr/bin
 endef
 
 $(eval $(call BuildPackage,xfrm))
