@@ -7,7 +7,7 @@
 curdir:=target
 
 $(curdir)/subtargets:=install
-$(curdir)/builddirs:=linux sdk imagebuilder toolchain llvm-bpf
+$(curdir)/builddirs:=linux sdk $(if $(CONFIG_IB),imagebuilder) toolchain llvm-bpf
 $(curdir)/builddirs-default:=linux
 $(curdir)/builddirs-install:=\
 	linux \
