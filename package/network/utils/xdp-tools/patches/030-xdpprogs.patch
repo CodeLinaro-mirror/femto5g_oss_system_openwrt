@@ -1,0 +1,82 @@
+From 734a8d92b79c6b6b81233284ece040ac0896cd27 Mon Sep 17 00:00:00 2001
+From: Ning Wan <quic_nwan@quicinc.com>
+Date: Thu, 27 Mar 2025 10:36:50 -0400
+Subject: [PATCH] add udp redirect xdp program for ipsec fastpath
+
+Change-Id: I1e38750ce692399593d0ff6efe49dbcb049b5316
+Signed-off-by: Ning Wan <quic_nwan@quicinc.com>
+---
+ lib/libxdp/Makefile       |  2 +-
+ lib/libxdp/udp_redirect.c | 47 +++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 48 insertions(+), 1 deletion(-)
+ create mode 100644 lib/libxdp/udp_redirect.c
+
+diff --git a/lib/libxdp/Makefile b/lib/libxdp/Makefile
+index fe0d067..1114654 100644
+--- a/lib/libxdp/Makefile
++++ b/lib/libxdp/Makefile
+@@ -9,7 +9,7 @@ OBJDIR ?= .
+ SHARED_OBJDIR := $(OBJDIR)/sharedobjs
+ STATIC_OBJDIR := $(OBJDIR)/staticobjs
+ OBJS := libxdp.o xsk.o
+-XDP_OBJS := xdp-dispatcher.o xsk_def_xdp_prog.o xsk_def_xdp_prog_5.3.o
++XDP_OBJS := xdp-dispatcher.o xsk_def_xdp_prog.o xsk_def_xdp_prog_5.3.o udp_redirect.o
+ EMBEDDED_XDP_OBJS := $(addsuffix .embed.o,$(basename $(XDP_OBJS)))
+ SHARED_OBJS := $(addprefix $(SHARED_OBJDIR)/,$(OBJS))
+ STATIC_OBJS := $(addprefix $(STATIC_OBJDIR)/,$(OBJS)) $(EMBEDDED_XDP_OBJS)
+diff --git a/lib/libxdp/udp_redirect.c b/lib/libxdp/udp_redirect.c
+new file mode 100644
+index 0000000..1d3b379
+--- /dev/null
++++ b/lib/libxdp/udp_redirect.c
+@@ -0,0 +1,47 @@
++/* Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries. */
++// SPDX-License-Identifier: GPL-2.0-only
++
++#include <linux/bpf.h>
++#include <linux/if_ether.h>
++#include <linux/ip.h>
++#include <linux/udp.h>
++#include <linux/in.h>
++#include <bpf/bpf_helpers.h>
++#include <xdp/xdp_helpers.h>
++
++#define XDP_METADATA_SECTION "xdp_metadata"
++#define XSK_PROG_VERSION 1
++
++#define IPPROTO_UDP 17
++#define MAX_ENT	64
++#define ESP_PORT 515
++
++struct {
++    __uint(type, BPF_MAP_TYPE_XSKMAP);
++    __uint(key_size, sizeof(int));
++    __uint(value_size, sizeof(int));
++    __uint(max_entries, MAX_ENT);
++} xsks_map SEC(".maps");
++
++struct {
++        __uint(priority, 20);
++	__uint(XDP_PASS, 1);
++} XDP_RUN_CONFIG(xdp_redirect_udp);
++
++SEC("xdp")
++int xdp_redirect_udp(struct xdp_md *ctx) {
++    void *data_end = (void *)(long)ctx->data_end;
++    void *data = (void *)(long)ctx->data;
++    struct iphdr *iph = data;
++
++    if (((void *)(iph + 1) < data_end) && (iph->protocol == IPPROTO_UDP))
++    {
++	    int queue_id = ctx->rx_queue_index;
++	    return bpf_redirect_map(&xsks_map, queue_id, 0);
++    }
++
++    return XDP_PASS;
++}
++
++char _license[] SEC("license") = "GPL";
++__uint(xsk_prog_version, XSK_PROG_VERSION) SEC(XDP_METADATA_SECTION);
+-- 
+2.17.1
+
