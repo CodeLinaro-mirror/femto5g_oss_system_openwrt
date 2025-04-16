@@ -24,3 +24,4 @@ endian = '@ENDIAN@'
 [properties]
 needs_exe_wrapper = true
 platform = 'ipq95xx'
+numa = false
